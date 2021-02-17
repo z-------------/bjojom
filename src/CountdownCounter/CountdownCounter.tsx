@@ -1,4 +1,5 @@
 import React from "react";
+import dateFormat from "date-fns/format";
 import Countdown from "../Countdown";
 import findFirst from "../findFirst";
 import "./CountdownCounter.css";
@@ -92,6 +93,7 @@ export default class CountdownCounter extends React.Component<CountdownCounterPr
             <div className="counter">
                 <div className="counter-name">{this.props.countdown.name}</div>
                 <div className="counter-counter">{this.formatDuration(this.state.timeRemaining)}</div>
+                <div className="counter-date">{dateFormat(this.props.countdown.date, "E, d MMM y, HH:mm")}</div>
 
                 <div className="counter-controls">
                     <button className="counter-editbtn" onClick={this.handleEditBtnClick.bind(this)}>edit</button>

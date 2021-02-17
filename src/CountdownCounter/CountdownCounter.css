@@ -21,6 +21,11 @@
     font-weight: 600;
 }
 
+.counter-date {
+    line-height: 1.5;
+    font-size: 0.5em;
+}
+
 .counter-counter-part:not(:last-child)::after {
     content: " ";
 }
