@@ -1,4 +1,5 @@
 import React from "react";
+import findFirst from "../findFirst";
 import "./Countdown.css";
 
 const TIME_DAY = 8.64e7;
@@ -59,7 +60,7 @@ export default class Countdown extends React.Component<CountdownProps, Countdown
 
         const partNames = ["d", "h", "m", "s"];
         const parts = [d, h, m, s];
-        const firstSignificantPartIdx = parts.reduce((cum, n, idx) => cum > idx && n !== 0 ? idx : cum, parts.length);
+        const [, firstSignificantPartIdx] = findFirst(parts, n => n !== 0);
         return parts.map((n, idx) => idx >= firstSignificantPartIdx ? n + partNames[idx] : "").join(" ");
     }
 }
