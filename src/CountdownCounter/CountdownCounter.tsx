@@ -54,7 +54,21 @@ export default class CountdownCounter extends React.Component<CountdownCounterPr
         this.setState({ timeRemaining: this.props.countdown.date.getTime() - Date.now() });
     }
 
-    formatDuration(duration: number): JSX.Element[] {
+    handleEditBtnClick() {
+        const newName = window.prompt("Enter new name", this.props.countdown.name) || this.props.countdown.name;
+        const newDate = new Date(window.prompt("Enter new date", this.props.countdown.date.toISOString()) || this.props.countdown.date);
+        this.props.onEdit({
+            uuid: this.props.countdown.uuid,
+            name: newName,
+            date: newDate,
+        });
+    }
+
+    handleDeleteBtnClick() {
+        this.props.onRemove(this.props.countdown);
+    }
+
+    renderDuration(duration: number): JSX.Element[] {
         const d = Math.floor(duration / TIME_DAY);
         const h = Math.floor(duration % TIME_DAY / TIME_HOUR);
         const m = Math.floor(duration % TIME_HOUR / TIME_MINUTE);
@@ -74,25 +88,11 @@ export default class CountdownCounter extends React.Component<CountdownCounterPr
             ));
     }
 
-    handleEditBtnClick() {
-        const newName = window.prompt("Enter new name", this.props.countdown.name) || this.props.countdown.name;
-        const newDate = new Date(window.prompt("Enter new date", this.props.countdown.date.toISOString()) || this.props.countdown.date);
-        this.props.onEdit({
-            uuid: this.props.countdown.uuid,
-            name: newName,
-            date: newDate,
-        });
-    }
-
-    handleDeleteBtnClick() {
-        this.props.onRemove(this.props.countdown);
-    }
-
     render() {
         return (
             <div className="counter">
                 <div className="counter-name">{this.props.countdown.name}</div>
-                <div className="counter-counter">{this.formatDuration(this.state.timeRemaining)}</div>
+                <div className="counter-counter">{this.renderDuration(this.state.timeRemaining)}</div>
                 <div className="counter-date">{dateFormat(this.props.countdown.date, "E, d MMM y, HH:mm")}</div>
 
                 <div className="counter-controls">
