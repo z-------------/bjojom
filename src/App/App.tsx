@@ -5,6 +5,10 @@ import CountdownCounter from "../CountdownCounter/CountdownCounter";
 import NewCountdownForm from "../NewCountdownForm/NewCountdownForm";
 import Countdown from "../Countdown";
 
+function countdownCompareChronological(a: Countdown, b: Countdown) {
+    return a.date.getTime() - b.date.getTime();
+}
+
 export default function App() {
     const [countdowns, setCountdowns] = React.useState([] as Countdown[]);
 
@@ -16,6 +20,7 @@ export default function App() {
             loadedCountdowns = [];
             await localforage.setItem(lfKey, loadedCountdowns);
         }
+        loadedCountdowns.sort(countdownCompareChronological);
         return loadedCountdowns;
     }
 
@@ -24,7 +29,7 @@ export default function App() {
     }
 
     async function handleNewCountdown(countdown: Countdown) {
-        const countdownsNew = countdowns.concat([countdown]);
+        const countdownsNew = countdowns.concat([countdown]).sort(countdownCompareChronological);
         setCountdowns(countdownsNew);
         await saveCountdownsToDisk(countdownsNew);
     }
