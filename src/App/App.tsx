@@ -29,6 +29,12 @@ export default function App() {
         await saveCountdownsToDisk(countdownsNew);
     }
 
+    async function handleRemove(countdown: Countdown) {
+        const countdownsNew = countdowns.filter(c => c.uuid !== countdown.uuid);
+        setCountdowns(countdownsNew);
+        await saveCountdownsToDisk(countdownsNew);
+    }
+
     React.useEffect(() => {
         loadCountdownsFromDisk().then(setCountdowns);
     }, []);
@@ -37,9 +43,12 @@ export default function App() {
         <div className="App">
             <ul className="App-list">
                 {
-                    countdowns.map(({ name, date }) => (
-                        <li key={name + date}>
-                            <CountdownCounter name={name} date={date}></CountdownCounter>
+                    countdowns.map(countdown => (
+                        <li key={countdown.uuid}>
+                            <CountdownCounter
+                                countdown={countdown}
+                                onRemove={handleRemove}
+                            ></CountdownCounter>
                         </li>
                     ))
                 }

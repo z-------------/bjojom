@@ -1,4 +1,5 @@
 import React from "react";
+import { v4 as uuid } from "uuid";
 import Countdown from "../Countdown";
 
 export default function NewCountdownForm(props: {
@@ -6,6 +7,7 @@ export default function NewCountdownForm(props: {
 }) {
     function handleClick() {
         const countdown: Countdown = {
+            uuid: uuid(),
             name: window.prompt("Enter new countdown name") ?? "Untitled countdown",
             date: new Date(window.prompt("Enter new countdown date in ISO format") ?? ""),
         };

@@ -1,4 +1,8 @@
 .counter {
+    --duration: 200ms;
+
+    position: relative;
+
     background-color: #fff;
     font-size: 2em;
 
@@ -23,4 +27,18 @@
 
 .counter-counter-part-label {
     font-variant: small-caps;
+}
+
+.counter-controls {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: var(--duration);
+}
+
+.counter:hover .counter-controls {
+    opacity: 1;
 }
