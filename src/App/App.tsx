@@ -1,23 +1,50 @@
 import React from "react";
-// import * as localforage from "localforage";
+import * as localforage from "localforage";
 import "./App.css";
-import Countdown from "../Countdown/Countdown";
+import CountdownCounter from "../CountdownCounter/CountdownCounter";
+import NewCountdownForm from "../NewCountdownForm/NewCountdownForm";
+import Countdown from "../Countdown";
 
-export default class App extends React.Component {
-    #countdowns = [
-        { name: "Foo", date: new Date("2021-12-25T00:00+08:00") },
-        { name: "Bar", date: new Date("2021-02-18T00:00+08:00") },
-    ];
+export default function App() {
+    const [countdowns, setCountdowns] = React.useState([] as Countdown[]);
 
-    componentDidMount() {
-        console.log("App mount");
+    const lfKey = "bjojomCountdowns";
+
+    async function loadCountdownsFromDisk() {
+        let loadedCountdowns: Countdown[] | null = await localforage.getItem(lfKey);
+        if (loadedCountdowns == null) {
+            loadedCountdowns = [];
+            await localforage.setItem(lfKey, loadedCountdowns);
+        }
+        return loadedCountdowns;
     }
 
-    render() {
-        return (
-            <div className={this.constructor.name}>
-                { this.#countdowns.map(({ name, date }) => <Countdown name={name} date={date}></Countdown>) }
-            </div>
-        );
+    async function saveCountdownsToDisk(countdowns: Countdown[]) {
+        await localforage.setItem(lfKey, countdowns);
     }
+
+    async function handleNewCountdown(countdown: Countdown) {
+        const countdownsNew = countdowns.concat([countdown]);
+        setCountdowns(countdownsNew);
+        await saveCountdownsToDisk(countdownsNew);
+    }
+
+    React.useEffect(() => {
+        loadCountdownsFromDisk().then(setCountdowns);
+    }, []);
+
+    return (
+        <div className="App">
+            <ul className="App-list">
+                {
+                    countdowns.map(({ name, date }) => (
+                        <li key={name + date}>
+                            <CountdownCounter name={name} date={date}></CountdownCounter>
+                        </li>
+                    ))
+                }
+            </ul>
+            <NewCountdownForm onNewCountdown={handleNewCountdown}></NewCountdownForm>
+        </div>
+    );
 }

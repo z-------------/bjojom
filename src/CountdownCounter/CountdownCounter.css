@@ -1,4 +1,4 @@
-.Countdown {
+.CountdownCounter {
     background-color: #fff;
     font-size: 2em;
 
@@ -13,6 +13,6 @@
     margin: 1em;
 }
 
-.Countdown-name {
+.CountdownCounter-name {
     font-weight: 600;
 }

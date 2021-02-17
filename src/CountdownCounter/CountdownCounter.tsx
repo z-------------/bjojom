@@ -1,23 +1,23 @@
 import React from "react";
 import findFirst from "../findFirst";
-import "./Countdown.css";
+import "./CountdownCounter.css";
 
 const TIME_DAY = 8.64e7;
 const TIME_HOUR = 3.6e6;
 const TIME_MINUTE = 60000;
 const TIME_SECOND = 1000;
 
-interface CountdownProps {
+interface CountdownCounterProps {
     name: string,
     date: Date,
 }
 
-interface CountdownState {
+interface CountdownCounterState {
     timeRemaining: number,
 }
 
-export default class Countdown extends React.Component<CountdownProps, CountdownState> {
-    constructor(props: CountdownProps) {
+export default class CountdownCounter extends React.Component<CountdownCounterProps, CountdownCounterState> {
+    constructor(props: CountdownCounterProps) {
         super(props);
 
         this.state = {
