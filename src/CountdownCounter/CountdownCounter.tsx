@@ -53,9 +53,9 @@ export default class CountdownCounter extends React.Component<CountdownCounterPr
     }
 
     formatDuration(duration: number) {
-        const d = Math.ceil(duration / TIME_DAY);
-        const h = Math.ceil(duration % TIME_DAY / TIME_HOUR);
-        const m = Math.ceil(duration % TIME_HOUR / TIME_MINUTE);
+        const d = Math.floor(duration / TIME_DAY);
+        const h = Math.floor(duration % TIME_DAY / TIME_HOUR);
+        const m = Math.floor(duration % TIME_HOUR / TIME_MINUTE);
         const s = Math.ceil(duration % TIME_MINUTE / TIME_SECOND);
 
         const partNames = ["d", "h", "m", "s"];
