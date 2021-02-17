@@ -32,9 +32,9 @@ export default class CountdownCounter extends React.Component<CountdownCounterPr
 
     render() {
         return (
-            <div className={this.constructor.name}>
-                <div className={this.constructor.name + "-name"}>{this.props.name}</div>
-                <div className={this.constructor.name + "-counter"}>{this.formatDuration(this.state.timeRemaining)}</div>
+            <div className="counter">
+                <div className="counter-name">{this.props.name}</div>
+                <div className="counter-counter">{this.formatDuration(this.state.timeRemaining)}</div>
             </div>
         );
     }
@@ -52,15 +52,23 @@ export default class CountdownCounter extends React.Component<CountdownCounterPr
         this.setState({ timeRemaining: this.props.date.getTime() - Date.now() });
     }
 
-    formatDuration(duration: number) {
+    formatDuration(duration: number): JSX.Element[] {
         const d = Math.floor(duration / TIME_DAY);
         const h = Math.floor(duration % TIME_DAY / TIME_HOUR);
         const m = Math.floor(duration % TIME_HOUR / TIME_MINUTE);
         const s = Math.ceil(duration % TIME_MINUTE / TIME_SECOND);
 
-        const partNames = ["d", "h", "m", "s"];
+        const labels = ["d", "h", "m", "s"];
         const parts = [d, h, m, s];
         const [, firstSignificantPartIdx] = findFirst(parts, n => n !== 0);
-        return parts.map((n, idx) => idx >= firstSignificantPartIdx ? n + partNames[idx] : "").join(" ");
+        return parts
+            .map((n, idx) => [n, labels[idx]])
+            .filter((_, idx) => idx >= firstSignificantPartIdx)
+            .map(([n, label], idx) => (
+                <span className="counter-counter-part">
+                    <span className="counter-counter-part-count">{n}</span>
+                    <span className="counter-counter-part-label">{label}</span>
+                </span>
+            ));
     }
 }

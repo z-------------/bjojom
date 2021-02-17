@@ -1,4 +1,4 @@
-.CountdownCounter {
+.counter {
     background-color: #fff;
     font-size: 2em;
 
@@ -13,6 +13,14 @@
     margin: 1em;
 }
 
-.CountdownCounter-name {
+.counter-name {
     font-weight: 600;
+}
+
+.counter-counter-part:not(:last-child)::after {
+    content: " ";
+}
+
+.counter-counter-part-label {
+    font-variant: small-caps;
 }
