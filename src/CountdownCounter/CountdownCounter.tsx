@@ -11,6 +11,7 @@ const TIME_SECOND = 1000;
 interface CountdownCounterProps {
     countdown: Countdown,
     onRemove: (countdown: Countdown) => void,
+    onEdit: (countdown: Countdown) => void,
 }
 
 interface CountdownCounterState {
@@ -72,6 +73,16 @@ export default class CountdownCounter extends React.Component<CountdownCounterPr
             ));
     }
 
+    handleEditBtnClick() {
+        const newName = window.prompt("Enter new name", this.props.countdown.name) || this.props.countdown.name;
+        const newDate = new Date(window.prompt("Enter new date", this.props.countdown.date.toISOString()) || this.props.countdown.date);
+        this.props.onEdit({
+            uuid: this.props.countdown.uuid,
+            name: newName,
+            date: newDate,
+        });
+    }
+
     handleDeleteBtnClick() {
         this.props.onRemove(this.props.countdown);
     }
@@ -83,6 +94,7 @@ export default class CountdownCounter extends React.Component<CountdownCounterPr
                 <div className="counter-counter">{this.formatDuration(this.state.timeRemaining)}</div>
 
                 <div className="counter-controls">
+                    <button className="counter-editbtn" onClick={this.handleEditBtnClick.bind(this)}>edit</button>
                     <button className="counter-deletebtn" onClick={this.handleDeleteBtnClick.bind(this)}>delete</button>
                 </div>
             </div>

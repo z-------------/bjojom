@@ -29,13 +29,23 @@ export default function App() {
     }
 
     async function handleNewCountdown(countdown: Countdown) {
-        const countdownsNew = countdowns.concat([countdown]).sort(countdownCompareChronological);
+        const countdownsNew = countdowns
+            .concat([countdown])
+            .sort(countdownCompareChronological);
         setCountdowns(countdownsNew);
         await saveCountdownsToDisk(countdownsNew);
     }
 
     async function handleRemove(countdown: Countdown) {
         const countdownsNew = countdowns.filter(c => c.uuid !== countdown.uuid);
+        setCountdowns(countdownsNew);
+        await saveCountdownsToDisk(countdownsNew);
+    }
+
+    async function handleEdit(countdown: Countdown) {
+        const countdownsNew = countdowns
+            .map(c => c.uuid === countdown.uuid ? countdown : c)
+            .sort(countdownCompareChronological);
         setCountdowns(countdownsNew);
         await saveCountdownsToDisk(countdownsNew);
     }
@@ -52,6 +62,7 @@ export default function App() {
                         <li key={countdown.uuid}>
                             <CountdownCounter
                                 countdown={countdown}
+                                onEdit={handleEdit}
                                 onRemove={handleRemove}
                             ></CountdownCounter>
                         </li>

@@ -8,8 +8,8 @@ export default function NewCountdownForm(props: {
     function handleClick() {
         const countdown: Countdown = {
             uuid: uuid(),
-            name: window.prompt("Enter new countdown name") ?? "Untitled countdown",
-            date: new Date(window.prompt("Enter new countdown date in ISO format") ?? ""),
+            name: window.prompt("Enter new countdown name") || "Untitled countdown",
+            date: new Date(window.prompt("Enter new countdown date in ISO format") || 0),
         };
         props.onNewCountdown(countdown);
     }
