@@ -1,0 +1,18 @@
+.Countdown {
+    background-color: #fff;
+    font-size: 2em;
+
+    width: 300px;
+    height: 150px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    margin: 1em;
+}
+
+.Countdown-name {
+    font-weight: 600;
+}

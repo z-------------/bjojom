@@ -1,0 +1,8 @@
+.App {
+    font-family: "FreeSans", "Liberation Sans", "Arimo", "Roboto", "Helvetica Neue", sans-serif;
+    background-color: #ccc;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+}
