@@ -1,8 +1,9 @@
 import React from "react";
 import dateFormat from "date-fns/format";
-import Countdown from "../Countdown";
+import Countdown, { CountdownInfo } from "../Countdown";
 import findFirst from "../findFirst";
 import "./CountdownCounter.css";
+import CountdownEditor from "../CountdownEditor/CountdownEditor";
 
 const TIME_DAY = 8.64e7;
 const TIME_HOUR = 3.6e6;
@@ -17,6 +18,7 @@ interface CountdownCounterProps {
 
 interface CountdownCounterState {
     timeRemaining: number,
+    isEditorOpen: boolean,
 }
 
 export default class CountdownCounter extends React.Component<CountdownCounterProps, CountdownCounterState> {
@@ -27,6 +29,7 @@ export default class CountdownCounter extends React.Component<CountdownCounterPr
 
         this.state = {
             timeRemaining: props.countdown.date.getTime() - Date.now(),
+            isEditorOpen: false,
         }
     }
 
@@ -54,20 +57,6 @@ export default class CountdownCounter extends React.Component<CountdownCounterPr
         this.setState({ timeRemaining: this.props.countdown.date.getTime() - Date.now() });
     }
 
-    handleEditBtnClick() {
-        const newName = window.prompt("Enter new name", this.props.countdown.name) || this.props.countdown.name;
-        const newDate = new Date(window.prompt("Enter new date", this.props.countdown.date.toISOString()) || this.props.countdown.date);
-        this.props.onEdit({
-            uuid: this.props.countdown.uuid,
-            name: newName,
-            date: newDate,
-        });
-    }
-
-    handleDeleteBtnClick() {
-        this.props.onRemove(this.props.countdown);
-    }
-
     static formatDate(date: Date): string {
         return dateFormat(date, "E, d MMM y, HH:mm");
     }
@@ -92,6 +81,22 @@ export default class CountdownCounter extends React.Component<CountdownCounterPr
             ));
     }
 
+    handleEditBtnClick() {
+        this.setState({ isEditorOpen: true });
+    }
+
+    handleEditorSubmit(countdownInfo: CountdownInfo) {
+        this.setState({ isEditorOpen: false });
+        const countdown = Object.assign({
+            uuid: this.props.countdown.uuid,
+        }, countdownInfo);
+        this.props.onEdit(countdown);
+    }
+
+    handleDeleteBtnClick() {
+        this.props.onRemove(this.props.countdown);
+    }
+
     render() {
         return (
             <div className="counter">
@@ -102,6 +107,14 @@ export default class CountdownCounter extends React.Component<CountdownCounterPr
                 <div className="counter-controls">
                     <button className="counter-editbtn" onClick={this.handleEditBtnClick.bind(this)}>edit</button>
                     <button className="counter-deletebtn" onClick={this.handleDeleteBtnClick.bind(this)}>delete</button>
+                </div>
+
+                <div className="counter-editor" style={{ display: this.state.isEditorOpen ? "block" : "none" }}>
+                    <CountdownEditor
+                        initialCountdownInfo={this.props.countdown}
+                        onSubmit={this.handleEditorSubmit.bind(this)}
+                        submitButtonText="Save"
+                    />
                 </div>
             </div>
         );

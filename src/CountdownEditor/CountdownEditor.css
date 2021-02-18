@@ -1,0 +1,13 @@
+.CountdownEditor {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    background-color: #fff;
+    padding: 8px;
+    font-size: 1rem;
+}
+
+.CountdownEditor label {
+    display: block;
+}

@@ -1,9 +1,10 @@
 import React from "react";
 import * as localforage from "localforage";
+import { v4 as uuid } from "uuid";
 import "./App.css";
 import CountdownCounter from "../CountdownCounter/CountdownCounter";
-import CreateCountdownForm from "../CreateCountdownForm/CreateCountdownForm";
-import Countdown from "../Countdown";
+import CountdownEditor from "../CountdownEditor/CountdownEditor";
+import Countdown, { CountdownInfo } from "../Countdown";
 
 function countdownCompareChronological(a: Countdown, b: Countdown) {
     return a.date.getTime() - b.date.getTime();
@@ -11,8 +12,13 @@ function countdownCompareChronological(a: Countdown, b: Countdown) {
 
 export default function App() {
     const [countdowns, setCountdowns] = React.useState([] as Countdown[]);
+    const [isCreateCountdownEditorOpen, setIsCreateCountdownEditorOpen] = React.useState(false);
 
     const lfKey = "bjojomCountdowns";
+
+    React.useEffect(() => {
+        loadCountdownsFromDisk().then(setCountdowns);
+    }, []);
 
     async function loadCountdownsFromDisk() {
         let loadedCountdowns: Countdown[] | null = await localforage.getItem(lfKey);
@@ -50,9 +56,17 @@ export default function App() {
         await saveCountdownsToDisk(countdownsNew);
     }
 
-    React.useEffect(() => {
-        loadCountdownsFromDisk().then(setCountdowns);
-    }, []);
+    function handleNewbtnClick() {
+        setIsCreateCountdownEditorOpen(true);
+    }
+
+    function handleCreateCountdownEditorSubmit(countdownInfo: CountdownInfo) {
+        setIsCreateCountdownEditorOpen(false);
+        const countdown = Object.assign({
+            uuid: uuid(),
+        }, countdownInfo);
+        handleNewCountdown(countdown);
+    }
 
     return (
         <div className="App">
@@ -64,13 +78,22 @@ export default function App() {
                                 countdown={countdown}
                                 onEdit={handleEdit}
                                 onRemove={handleRemove}
-                            ></CountdownCounter>
+                            />
                         </li>
                     ))
                 }
             </ul>
             <div className="App-newbtn">
-                <CreateCountdownForm onNewCountdown={handleNewCountdown}></CreateCountdownForm>
+                <button
+                    style={{ display: isCreateCountdownEditorOpen ? "none" : "block" }}
+                    onClick={handleNewbtnClick}
+                >+</button>
+            </div>
+            <div style={{ display: isCreateCountdownEditorOpen ? "block" : "none" }}>
+                <CountdownEditor
+                    onSubmit={handleCreateCountdownEditorSubmit}
+                    submitButtonText="Create"
+                />
             </div>
         </div>
     );
