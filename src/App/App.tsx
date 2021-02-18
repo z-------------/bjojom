@@ -92,6 +92,7 @@ export default function App() {
             <div style={{ display: isCreateCountdownEditorOpen ? "block" : "none" }}>
                 <CountdownEditor
                     onSubmit={handleCreateCountdownEditorSubmit}
+                    headingText="New countdown"
                     submitButtonText="Create"
                 />
             </div>

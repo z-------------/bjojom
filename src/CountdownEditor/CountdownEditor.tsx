@@ -9,6 +9,7 @@ const TIME_MINUTE = 60000;
 export default function CountdownEditor(props: {
     initialCountdownInfo: CountdownInfo, // the countdown to use to pre-populate the form
     onSubmit: (countdownInfo: CountdownInfo) => void,
+    headingText: string,
     submitButtonText: string,
 }) {
     const [countdownInfo, setCountdownInfo] = React.useState(Object.assign({}, props.initialCountdownInfo));
@@ -41,7 +42,7 @@ export default function CountdownEditor(props: {
 
     return (
         <div className="CountdownEditor">
-            <h2>New countdown</h2>
+            <h2>{props.headingText}</h2>
             
             <label>
                 <span>Name</span>
@@ -79,6 +80,7 @@ export default function CountdownEditor(props: {
 }
 
 CountdownEditor.defaultProps = {
+    headingText: "Edit countdown",
     submitButtonText: "Save",
     initialCountdownInfo: {
         name: "Untitled countdown",
