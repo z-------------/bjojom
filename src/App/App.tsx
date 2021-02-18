@@ -13,11 +13,16 @@ function countdownCompareChronological(a: Countdown, b: Countdown) {
 export default function App() {
     const [countdowns, setCountdowns] = React.useState([] as Countdown[]);
     const [isCreateCountdownEditorOpen, setIsCreateCountdownEditorOpen] = React.useState(false);
+    const [isInitialized, setIsInitialized] = React.useState(false);
 
     const lfKey = "bjojomCountdowns";
 
     React.useEffect(() => {
-        loadCountdownsFromDisk().then(setCountdowns);
+        loadCountdownsFromDisk()
+            .then(countdowns => {
+                setCountdowns(countdowns);
+                setIsInitialized(true);
+            });
     }, []);
 
     async function loadCountdownsFromDisk() {
@@ -72,15 +77,17 @@ export default function App() {
         <div className="App">
             <ul className="App-list">
                 {
-                    countdowns.map(countdown => (
-                        <li key={countdown.uuid}>
-                            <CountdownCounter
-                                countdown={countdown}
-                                onEdit={handleEdit}
-                                onRemove={handleRemove}
-                            />
-                        </li>
-                    ))
+                    isInitialized && countdowns.length === 0 ?
+                        <div>No countdowns.</div> :
+                        countdowns.map(countdown => (
+                            <li key={countdown.uuid}>
+                                <CountdownCounter
+                                    countdown={countdown}
+                                    onEdit={handleEdit}
+                                    onRemove={handleRemove}
+                                />
+                            </li>
+                        ))
                 }
             </ul>
             <div className="App-newbtn">
