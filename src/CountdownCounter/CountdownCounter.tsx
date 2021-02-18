@@ -68,7 +68,11 @@ export default class CountdownCounter extends React.Component<CountdownCounterPr
         this.props.onRemove(this.props.countdown);
     }
 
-    renderDuration(duration: number): JSX.Element[] {
+    static formatDate(date: Date): string {
+        return dateFormat(date, "E, d MMM y, HH:mm");
+    }
+
+    static renderDuration(duration: number): JSX.Element[] {
         const d = Math.floor(duration / TIME_DAY);
         const h = Math.floor(duration % TIME_DAY / TIME_HOUR);
         const m = Math.floor(duration % TIME_HOUR / TIME_MINUTE);
@@ -92,8 +96,8 @@ export default class CountdownCounter extends React.Component<CountdownCounterPr
         return (
             <div className="counter">
                 <div className="counter-name">{this.props.countdown.name}</div>
-                <div className="counter-counter">{this.renderDuration(this.state.timeRemaining)}</div>
-                <div className="counter-date">{dateFormat(this.props.countdown.date, "E, d MMM y, HH:mm")}</div>
+                <div className="counter-counter">{CountdownCounter.renderDuration(this.state.timeRemaining)}</div>
+                <div className="counter-date">{CountdownCounter.formatDate(this.props.countdown.date)}</div>
 
                 <div className="counter-controls">
                     <button className="counter-editbtn" onClick={this.handleEditBtnClick.bind(this)}>edit</button>
