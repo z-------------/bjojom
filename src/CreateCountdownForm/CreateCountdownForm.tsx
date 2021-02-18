@@ -2,7 +2,7 @@ import React from "react";
 import { v4 as uuid } from "uuid";
 import Countdown from "../Countdown";
 
-export default function NewCountdownForm(props: {
+export default function CreateCountdownForm(props: {
     onNewCountdown: (countdown: Countdown) => void,
 }) {
     function handleClick() {

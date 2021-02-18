@@ -2,7 +2,7 @@ import React from "react";
 import * as localforage from "localforage";
 import "./App.css";
 import CountdownCounter from "../CountdownCounter/CountdownCounter";
-import NewCountdownForm from "../NewCountdownForm/NewCountdownForm";
+import CreateCountdownForm from "../CreateCountdownForm/CreateCountdownForm";
 import Countdown from "../Countdown";
 
 function countdownCompareChronological(a: Countdown, b: Countdown) {
@@ -69,7 +69,7 @@ export default function App() {
                     ))
                 }
             </ul>
-            <NewCountdownForm onNewCountdown={handleNewCountdown}></NewCountdownForm>
+            <CreateCountdownForm onNewCountdown={handleNewCountdown}></CreateCountdownForm>
         </div>
     );
 }
