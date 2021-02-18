@@ -40,6 +40,12 @@ export default function CountdownEditor(props: {
         }));
     }
 
+    function handleBackgroundInput(e: React.ChangeEvent<HTMLInputElement>) {
+        setCountdownInfo(Object.assign({}, countdownInfo, {
+            backgroundUrl: e.target.value,
+        }));
+    }
+
     return (
         <div className="CountdownEditor">
             <h2>{props.headingText}</h2>
@@ -71,6 +77,16 @@ export default function CountdownEditor(props: {
                     type="time"
                     defaultValue={dateFormat(props.initialCountdownInfo.date, "HH:mm")}
                     onChange={handleTimeInput}
+                />
+            </label>
+
+            <label>
+                <span>Background</span>
+                <input
+                    id="ccf-input-background"
+                    type="url"
+                    defaultValue={props.initialCountdownInfo.backgroundUrl ?? ""}
+                    onChange={handleBackgroundInput}
                 />
             </label>
 

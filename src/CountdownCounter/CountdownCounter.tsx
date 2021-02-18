@@ -33,6 +33,8 @@ export default class CountdownCounter extends React.Component<CountdownCounterPr
         }
     }
 
+    /* lifecycle methods */
+
     componentDidMount() {
         this.tick();
         this.scheduleTick();
@@ -43,6 +45,8 @@ export default class CountdownCounter extends React.Component<CountdownCounterPr
             clearTimeout(this.#tickTimeout);
         }
     }
+
+    /* helpers */
 
     scheduleTick() {
         const now = Date.now();
@@ -81,6 +85,8 @@ export default class CountdownCounter extends React.Component<CountdownCounterPr
             ));
     }
 
+    /* handlers */
+
     handleEditBtnClick() {
         this.setState({ isEditorOpen: true });
     }
@@ -97,16 +103,29 @@ export default class CountdownCounter extends React.Component<CountdownCounterPr
         this.props.onRemove(this.props.countdown);
     }
 
-    render() {
-        return (
-            <div className="counter">
-                <div className="counter-name">{this.props.countdown.name}</div>
-                <div className="counter-counter">{CountdownCounter.renderDuration(this.state.timeRemaining)}</div>
-                <div className="counter-date">{CountdownCounter.formatDate(this.props.countdown.date)}</div>
+    /* render */
 
-                <div className="counter-controls">
-                    <button className="counter-editbtn" onClick={this.handleEditBtnClick.bind(this)}>edit</button>
-                    <button className="counter-deletebtn" onClick={this.handleDeleteBtnClick.bind(this)}>delete</button>
+    render() {
+        const hasBackgroundImage = this.props.countdown.backgroundUrl != null;
+
+        return (
+            <div
+                className={["counter", ...(hasBackgroundImage ? ["counter--has-bg"] : [])].join(" ")}
+                style={{
+                    backgroundImage: hasBackgroundImage ?
+                        `url(${this.props.countdown.backgroundUrl})` :
+                        "none",
+                }}
+            >
+                <div className="counter-bgmask">
+                    <div className="counter-name">{this.props.countdown.name}</div>
+                    <div className="counter-counter">{CountdownCounter.renderDuration(this.state.timeRemaining)}</div>
+                    <div className="counter-date">{CountdownCounter.formatDate(this.props.countdown.date)}</div>
+
+                    <div className="counter-controls">
+                        <button className="counter-editbtn" onClick={this.handleEditBtnClick.bind(this)}>edit</button>
+                        <button className="counter-deletebtn" onClick={this.handleDeleteBtnClick.bind(this)}>delete</button>
+                    </div>
                 </div>
 
                 <div className="counter-editor" style={{ display: this.state.isEditorOpen ? "block" : "none" }}>

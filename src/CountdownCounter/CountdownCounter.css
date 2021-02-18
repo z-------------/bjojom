@@ -9,12 +9,31 @@
     width: 300px;
     height: 150px;
 
+    margin: 16px;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.counter-bgmask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
 
-    margin: 16px;
+.counter--has-bg .counter-bgmask {
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    text-shadow: 0 0.07em 0.2em rgba(0, 0, 0, 0.5);
 }
 
 @media only screen and (max-width: 600px) {
