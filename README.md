@@ -2,4 +2,4 @@
 
 Minimalist countdown dashboard.
 
-![Screenshot](https://i.imgur.com/KFoGtSs.png)
+![Screenshot](https://i.imgur.com/IrIE5PD.png)
