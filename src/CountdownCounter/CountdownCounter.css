@@ -17,6 +17,12 @@
     margin: 16px;
 }
 
+@media only screen and (max-width: 600px) {
+    .counter {
+        width: 100vw;
+    }
+}
+
 .counter-name {
     font-weight: 600;
 }

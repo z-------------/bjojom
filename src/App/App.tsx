@@ -69,7 +69,9 @@ export default function App() {
                     ))
                 }
             </ul>
-            <CreateCountdownForm onNewCountdown={handleNewCountdown}></CreateCountdownForm>
+            <div className="App-newbtn">
+                <CreateCountdownForm onNewCountdown={handleNewCountdown}></CreateCountdownForm>
+            </div>
         </div>
     );
 }
